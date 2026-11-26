@@ -2,3 +2,4 @@ src/**
 .vscode/**
 **/*.map
 tsconfig.json
+out/test/**
