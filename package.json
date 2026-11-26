@@ -1,0 +1,70 @@
+{
+  "name": "ohmg-vscode",
+  "displayName": "OHMG",
+  "description": "Multipurpose UI tweaks for VS Code, mostly around git.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": { "vscode": "^1.90.0" },
+  "categories": ["Other", "SCM Providers"],
+  "main": "./out/extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "extensionDependencies": ["vscode.git"],
+  "contributes": {
+    "commands": [
+      { "command": "ohmg.git.copyBranchName", "title": "Copy Current Branch Name", "category": "OHMG" },
+      { "command": "ohmg.git.openChangedFiles", "title": "Open All Changed Files", "category": "OHMG" },
+      { "command": "ohmg.git.stashSelected", "title": "STASH Selected", "category": "OHMG", "icon": "$(archive)" },
+      { "command": "ohmg.git.blameTimeline", "title": "File History Timeline", "category": "OHMG" },
+      { "command": "ohmg.dev.reinstall", "title": "Rebuild & Reload OHMG", "category": "OHMG" },
+      { "command": "ohmg.toggleFeature", "title": "Toggle Feature…", "category": "OHMG" }
+    ],
+    "keybindings": [
+      { "command": "ohmg.git.blameTimeline", "key": "ctrl+shift+y", "mac": "cmd+shift+y", "when": "editorTextFocus" }
+    ],
+    "menus": {
+      "scm/resourceState/context": [
+        { "command": "ohmg.git.stashSelected", "when": "scmProvider == git", "group": "0_ohmg@1" }
+      ],
+      "commandPalette": [
+        { "command": "ohmg.git.stashSelected", "when": "false" }
+      ]
+    },
+    "configuration": {
+      "title": "OHMG",
+      "properties": {
+        "ohmg.git.branchStatusBar.enabled": {
+          "type": "boolean", "default": true,
+          "description": "Show the current branch with ahead/behind counts in the status bar. Click to copy the branch name."
+        },
+        "ohmg.git.branchStatusBar.ticketPattern": {
+          "type": "string", "default": "(\\d{4,})$",
+          "description": "Regex used to pull a ticket number out of the branch name. The first capture group is shown, e.g. f/notifications-217943 shows #217943. Leave empty to show the full branch."
+        },
+        "ohmg.git.changedFilesBadge.enabled": {
+          "type": "boolean", "default": true,
+          "description": "Show a status bar item with the number of changed files. Click to open them all."
+        },
+        "ohmg.dev.sourcePath": {
+          "type": "string", "default": "",
+          "description": "Folder with the OHMG extension source. Used by Rebuild & Reload OHMG; you're asked for it the first time."
+        },
+        "ohmg.statusMenu.enabled": {
+          "type": "boolean", "default": true,
+          "description": "Show the OHMG status bar icon. Hover it for quick actions such as rebuilding and reloading OHMG."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.0.0",
+    "typescript": "^5.6.0"
+  }
+}
